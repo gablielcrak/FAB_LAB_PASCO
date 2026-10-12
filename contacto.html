@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto | Fab Lab Pasco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.svg" alt="Fab Lab Pasco">
+      <span class="logo-text">Fab Lab<br>Pasco</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="portafolio.html">Portafolio</a>
+      <a href="blog.html">Blog/Recurso</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a class="active" href="contacto.html">Contacto</a>
+    </nav>
+    <div class="auth">
+      <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
+      <a class="btn btn-solid" href="registro.html">Registra</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1>Contacto</h1>
+    <p class="lead">Escríbenos para reservas, capacitaciones o desarrollo de prototipos.</p>
+    <div class="contact-wrap">
+      <form class="form-card" id="contactForm">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" required>
+        <label for="correo">Correo</label>
+        <input id="correo" name="correo" type="email" required>
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" required></textarea>
+        <div class="form-actions">
+          <button class="btn btn-solid" type="submit">Enviar</button>
+        </div>
+        <p class="msg" id="formMsg"></p>
+      </form>
+      <aside class="info-card">
+        <h3>Fab Lab Pasco</h3>
+        <p>Pasco, Perú</p>
+        <p>Horario: Lun - Vie, 8:00 a 18:00</p>
+        <p>Correo: contacto@fablabpasco.org</p>
+      </aside>
+    </div>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

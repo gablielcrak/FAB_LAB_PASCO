@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicia sesión | Fab Lab Pasco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.svg" alt="Fab Lab Pasco">
+      <span class="logo-text">Fab Lab<br>Pasco</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="portafolio.html">Portafolio</a>
+      <a href="blog.html">Blog/Recurso</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="auth">
+      <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
+      <a class="btn btn-solid" href="registro.html">Registra</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1>Inicia sesión</h1>
+    <p class="lead">Accede con tu cuenta para seguir tus proyectos en el laboratorio.</p>
+    <div class="auth-wrap">
+      <form class="form-card" id="loginForm">
+        <label for="loginCorreo">Correo</label>
+        <input id="loginCorreo" type="email" required>
+        <label for="loginClave">Contraseña</label>
+        <input id="loginClave" type="password" required>
+        <div class="form-actions">
+          <button class="btn btn-solid" type="submit">Entrar</button>
+        </div>
+        <p class="msg" id="formMsg"></p>
+        <p>¿No tienes cuenta? <a href="registro.html">Regístrate</a></p>
+      </form>
+    </div>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

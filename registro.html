@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regístrate | Fab Lab Pasco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.svg" alt="Fab Lab Pasco">
+      <span class="logo-text">Fab Lab<br>Pasco</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="portafolio.html">Portafolio</a>
+      <a href="blog.html">Blog/Recurso</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+    <div class="auth">
+      <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
+      <a class="btn btn-solid" href="registro.html">Registra</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1>Regístrate</h1>
+    <p class="lead">Crea tu cuenta para reservar equipos y guardar tus avances.</p>
+    <div class="auth-wrap">
+      <form class="form-card" id="registerForm">
+        <label for="regNombre">Nombre</label>
+        <input id="regNombre" required>
+        <label for="regCorreo">Correo</label>
+        <input id="regCorreo" type="email" required>
+        <label for="regClave">Contraseña</label>
+        <input id="regClave" type="password" minlength="6" required>
+        <div class="form-actions">
+          <button class="btn btn-solid" type="submit">Crear cuenta</button>
+        </div>
+        <p class="msg" id="formMsg"></p>
+        <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+      </form>
+    </div>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>
