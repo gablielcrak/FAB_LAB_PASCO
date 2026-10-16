@@ -1,4 +1,5 @@
 (function () {
+  // Manejo del menú desplegable para dispositivos móviles
   const header = document.querySelector(".site-header");
   const toggle = document.querySelector(".menu-toggle");
   if (toggle && header) {
@@ -7,13 +8,43 @@
     });
   }
 
+  // Manejo del cambio de tema (Modo Claro / Modo Oscuro)
+  const themeToggle = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("fablab_theme");
+
+  if (savedTheme === "light") {
+    document.body.classList.add("light-mode");
+    if (themeToggle) themeToggle.textContent = "☀️";
+  }
+
+  function setupThemeToggle(btn) {
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      const isLight = document.body.classList.toggle("light-mode");
+      btn.textContent = isLight ? "☀️" : "🌙";
+      localStorage.setItem("fablab_theme", isLight ? "light" : "dark");
+    });
+  }
+
+  setupThemeToggle(themeToggle);
+
+  // Manejo de la sesión de usuario activa
   const session = JSON.parse(localStorage.getItem("fablab_session") || "null");
   const auth = document.querySelector(".auth");
   if (session && auth) {
+    const isLightActive = document.body.classList.contains("light-mode");
     auth.innerHTML =
+      '<button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">' +
+      (isLightActive ? "☀️" : "🌙") +
+      '</button>' +
       '<span class="user-chip">Hola, ' +
       escapeHtml(session.nombre) +
       '</span><button class="btn btn-ghost" id="logoutBtn" type="button">Salir</button>';
+
+    // Volver a enlazar el evento del botón de tema tras reconstruir el contenedor de autenticación
+    const newThemeToggle = document.getElementById("themeToggle");
+    setupThemeToggle(newThemeToggle);
+
     const logout = document.getElementById("logoutBtn");
     if (logout) {
       logout.addEventListener("click", function () {
@@ -23,6 +54,7 @@
     }
   }
 
+  // Manejo del formulario de inicio de sesión
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
@@ -49,6 +81,7 @@
     });
   }
 
+  // Manejo del formulario de registro de nuevos usuarios
   const registerForm = document.getElementById("registerForm");
   if (registerForm) {
     registerForm.addEventListener("submit", function (e) {
@@ -81,6 +114,7 @@
     });
   }
 
+  // Manejo del formulario de contacto
   const contactForm = document.getElementById("contactForm");
   if (contactForm) {
     contactForm.addEventListener("submit", function (e) {
@@ -90,6 +124,7 @@
     });
   }
 
+  // Funciones auxiliares de utilidad
   function value(id) {
     return (document.getElementById(id).value || "").trim();
   }

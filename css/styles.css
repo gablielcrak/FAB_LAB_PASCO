@@ -154,6 +154,11 @@ img {
   cursor: pointer;
 }
 
+.theme-toggle {
+  font-size: 14px;
+  padding: 0 12px;
+}
+
 /* ==========================================================================
    PORTADA HERO
    ========================================================================== */
@@ -576,6 +581,114 @@ textarea {
   text-align: center;
   font-size: 12px;
   color: #777;
+}
+
+/* ==========================================================================
+   ESTILOS PARA MODO CLARO (LIGHT MODE)
+   ========================================================================== */
+body.light-mode {
+  --bg: #f5f6f8;
+  --white: #111111;
+  --muted: #4a4a4a;
+  color: #111111;
+  background-color: #f5f6f8;
+  background-image: repeating-linear-gradient(
+    -32deg,
+    #f0f1f4 0px,
+    #f0f1f4 18px,
+    #e3e5ea 18px,
+    #e3e5ea 20px
+  );
+}
+
+body.light-mode .site-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+body.light-mode .logo-text {
+  color: #111111;
+}
+
+body.light-mode .nav a {
+  color: #222222;
+}
+
+body.light-mode .btn-ghost {
+  border-color: #333333;
+  color: #111111;
+}
+
+body.light-mode .btn-solid {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+body.light-mode .card,
+body.light-mode .article,
+body.light-mode .form-card,
+body.light-mode .info-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .card p,
+body.light-mode .article p,
+body.light-mode .form-card p {
+  color: #4a5568;
+}
+
+body.light-mode .step-num {
+  color: #2b6cb0;
+}
+
+body.light-mode .stats-section {
+  background: #ffffff;
+  border-color: #e2e8f0;
+}
+
+body.light-mode .stat-number {
+  color: #1a202c;
+}
+
+body.light-mode .stat-desc {
+  color: #4a5568;
+}
+
+body.light-mode .cta-banner {
+  background: linear-gradient(135deg, #ffffff 0%, #edf2f7 100%);
+  border-color: #cbd5e0;
+}
+
+body.light-mode .cta-content h2 {
+  color: #1a202c;
+}
+
+body.light-mode .cta-content p {
+  color: #4a5568;
+}
+
+body.light-mode .site-footer {
+  background: #ebedf0;
+  border-top: 1px solid #d0d5dd;
+}
+
+body.light-mode .footer-brand p,
+body.light-mode .footer-links a,
+body.light-mode .footer-info p {
+  color: #4a5568;
+}
+
+body.light-mode .footer-links h4,
+body.light-mode .footer-info h4 {
+  color: #1a202c;
+}
+
+body.light-mode .footer-bottom {
+  border-top-color: #d0d5dd;
+  color: #718096;
 }
 
 /* ==========================================================================
