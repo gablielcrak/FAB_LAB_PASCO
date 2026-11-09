@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog / Recurso | Fab Lab Pasco</title>
+  <title>Blog & Recursos | Fab Lab Pasco</title>
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,37 +20,99 @@
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a href="portafolio.html">Portafolio</a>
+      <a href="compras.html">Tienda</a>
       <a class="active" href="blog.html">Blog/Recurso</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="contacto.html">Contacto</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
     </div>
   </header>
 
   <main class="page">
-    <h1>Blog / Recurso</h1>
-    <p class="lead">Guías, tutoriales y recursos abiertos para fabricar, diseñar y prototipar.</p>
-    <section class="articles">
+    <h1>Blog & Recursos</h1>
+    <p class="lead">Artículos técnicos, tutoriales de prototipado y novedades del ecosistema maker local.</p>
+
+    <div class="articles">
       <article class="article">
-        <span>Fabricación digital</span>
-        <h3>Cómo pasar de una idea a un prototipo en 48 horas</h3>
-        <p>Flujo recomendado: boceto, modelado, corte o impresión, ensamble y prueba.</p>
+        <span>IMPRESIÓN 3D</span>
+        <h3>Parámetros Óptimos para Impresión en PLA y PETG</h3>
+        <p>Aprende a ajustar la altura de capa, velocidad de retracción y temperatura del extrusor para lograr prototipos resistentes sin hilos de material.</p>
       </article>
+
       <article class="article">
-        <span>Impresión 3D</span>
-        <h3>Parámetros básicos de PLA para piezas resistentes</h3>
-        <p>Relleno, altura de capa y orientación de pieza para resultados consistentes.</p>
+        <span>CORTE LÁSER</span>
+        <h3>Guía de Espesores y Tolerancias en Madera MDF</h3>
+        <p>Consideraciones de kerf y ajustes de potencia en tu máquina CNC láser para lograr encajes perfectos a presión en estructuras 3D armables.</p>
       </article>
+
       <article class="article">
-        <span>Corte láser</span>
-        <h3>Archivos listos para corte en madera y acrílico</h3>
-        <p>Usa vectores limpios, líneas de corte y grabado separadas por color.</p>
+        <span>SUBLIMADO</span>
+        <h3>Técnicas de Transferencia Térmica en Cerámica y Metal</h3>
+        <p>Tiempos de prensado, curvas de temperatura y perfil cromático para sublimación de alta definición en tazas, chapas y soportes promocionales.</p>
       </article>
-    </section>
+    </div>
   </main>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>🛒 Carrito de Compras</h2>
+      <button class="close-cart-btn" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="cart-body" id="cartItemsContainer">
+      <p class="empty-cart-msg">Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cartTotal">S/ 0.00</strong>
+      </div>
+      <div class="cart-actions-row">
+        <button class="btn btn-ghost" id="clearCartBtn" type="button">Vaciar</button>
+        <button class="btn btn-solid" id="checkoutBtn" type="button">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="compras.html">Tienda</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

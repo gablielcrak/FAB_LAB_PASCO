@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Cabecera principal -->
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="assets/logo.svg" alt="Fab Lab Pasco">
@@ -21,11 +20,16 @@
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a class="active" href="portafolio.html">Portafolio</a>
+      <a href="compras.html">Tienda</a>
       <a href="blog.html">Blog/Recurso</a>
       <a href="nosotros.html">Nosotros</a>
       <a href="contacto.html">Contacto</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
       <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
@@ -36,7 +40,7 @@
     <h1>Portafolio</h1>
     <p class="lead">Proyectos fabricados en el laboratorio: impresión 3D, corte láser, diseño digital y prototipado rápido.</p>
 
-    <!-- Grilla de proyectos (se renderiza dinámicamente desde Supabase si hay conexión) -->
+    <!-- Grilla de proyectos -->
     <div class="grid">
       <article class="card">
         <img src="assets/Llavero_01.webp" alt="Llaveros Personalizados">
@@ -64,7 +68,27 @@
     </div>
   </main>
 
-  <!-- Pie de Página -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>🛒 Carrito de Compras</h2>
+      <button class="close-cart-btn" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="cart-body" id="cartItemsContainer">
+      <p class="empty-cart-msg">Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cartTotal">S/ 0.00</strong>
+      </div>
+      <div class="cart-actions-row">
+        <button class="btn btn-ghost" id="clearCartBtn" type="button">Vaciar</button>
+        <button class="btn btn-solid" id="checkoutBtn" type="button">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -78,6 +102,7 @@
         <h4>Navegación</h4>
         <a href="index.html">Inicio</a>
         <a href="portafolio.html">Portafolio</a>
+        <a href="compras.html">Tienda</a>
         <a href="blog.html">Blog/Recurso</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contacto</a>
@@ -94,7 +119,6 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>

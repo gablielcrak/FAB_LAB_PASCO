@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <!-- Cabecera principal -->
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="assets/logo.svg" alt="Fab Lab Pasco">
@@ -21,11 +20,16 @@
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a href="portafolio.html">Portafolio</a>
+      <a href="compras.html">Tienda</a>
       <a href="blog.html">Blog/Recurso</a>
       <a class="active" href="nosotros.html">Nosotros</a>
       <a href="contacto.html">Contacto</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
       <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
@@ -33,11 +37,9 @@
   </header>
 
   <main class="page">
-    <!-- HERO INNOVADOR NOSOTROS -->
     <section class="innovative-hero">
       <div class="innovative-grid">
         
-        <!-- Columna de Texto Principal -->
         <div class="innovative-info">
           <span class="tech-tag">🏛️ SEDE INSTITUCIONAL</span>
           <h1 class="innovative-title">Donde la Formación Técnica Encuentra la Fabricación Digital</h1>
@@ -55,7 +57,6 @@
           </div>
         </div>
 
-        <!-- Columna Visual: Imagen Flotante con Marcos de Luz -->
         <div class="innovative-visual">
           <div class="tech-frame">
             <div class="tech-corner top-left"></div>
@@ -63,7 +64,6 @@
             
             <img src="assets/Instituto_Tecnológico_Público_Pasco.webp" alt="Instituto Tecnológico Público Pasco" class="hero-institutional-img">
             
-            <!-- Tarjeta Flotante Glassmorphism 1 (Top Right) -->
             <div class="glass-float-card top-float">
               <div class="pulse-indicator"></div>
               <div>
@@ -72,7 +72,6 @@
               </div>
             </div>
 
-            <!-- Tarjeta Flotante Glassmorphism 2 (Bottom Left) -->
             <div class="glass-float-card bottom-float">
               <span class="float-icon">💡</span>
               <div>
@@ -86,7 +85,6 @@
       </div>
     </section>
 
-    <!-- PILARES EN TARJETAS CON BORDE BRILLANTE -->
     <section class="section-padded">
       <h2>NUESTRA ESTRUCTURA</h2>
       <h1>Misión, Visión y Valor Añadido</h1>
@@ -118,7 +116,27 @@
     </section>
   </main>
 
-  <!-- Pie de Página -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>🛒 Carrito de Compras</h2>
+      <button class="close-cart-btn" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="cart-body" id="cartItemsContainer">
+      <p class="empty-cart-msg">Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cartTotal">S/ 0.00</strong>
+      </div>
+      <div class="cart-actions-row">
+        <button class="btn btn-ghost" id="clearCartBtn" type="button">Vaciar</button>
+        <button class="btn btn-solid" id="checkoutBtn" type="button">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -132,6 +150,7 @@
         <h4>Navegación</h4>
         <a href="index.html">Inicio</a>
         <a href="portafolio.html">Portafolio</a>
+        <a href="compras.html">Tienda</a>
         <a href="blog.html">Blog/Recurso</a>
         <a href="nosotros.html">Nosotros</a>
         <a href="contacto.html">Contacto</a>
@@ -148,7 +167,6 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>

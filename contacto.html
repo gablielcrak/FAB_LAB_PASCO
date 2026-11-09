@@ -20,11 +20,16 @@
     <nav class="nav">
       <a href="index.html">Inicio</a>
       <a href="portafolio.html">Portafolio</a>
+      <a href="compras.html">Tienda</a>
       <a href="blog.html">Blog/Recurso</a>
       <a href="nosotros.html">Nosotros</a>
       <a class="active" href="contacto.html">Contacto</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
       <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
@@ -33,30 +38,92 @@
 
   <main class="page">
     <h1>Contacto</h1>
-    <p class="lead">Escríbenos para reservas, capacitaciones o desarrollo de prototipos.</p>
+    <p class="lead">¿Tienes una consulta técnica o deseas agendar una cita en el taller? Envíanos un mensaje.</p>
+
     <div class="contact-wrap">
-      <form class="form-card" id="contactForm">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" name="nombre" required>
-        <label for="correo">Correo</label>
-        <input id="correo" name="correo" type="email" required>
-        <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" name="mensaje" required></textarea>
-        <div class="form-actions">
-          <button class="btn btn-solid" type="submit">Enviar</button>
-        </div>
-        <p class="msg" id="formMsg"></p>
-      </form>
-      <aside class="info-card">
-        <h3>Fab Lab Pasco</h3>
-        <p>Pasco, Perú</p>
-        <p>Horario: Lun - Vie, 8:00 a 18:00</p>
-        <p>Correo: 72212162@idexpasco.udu.pe</p>
-      </aside>
+      <div class="form-card">
+        <form id="contactForm">
+          <label for="nombre">Nombre Completo</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+
+          <label for="correo">Correo Electrónico</label>
+          <input type="email" id="correo" placeholder="correo@ejemplo.com" required>
+
+          <label for="mensaje">Mensaje o Detalle del Proyecto</label>
+          <textarea id="mensaje" placeholder="Describe tu proyecto o consulta..." required></textarea>
+
+          <div class="form-actions">
+            <button class="btn btn-solid" type="submit">Enviar Mensaje</button>
+          </div>
+          <p class="msg" id="formMsg"></p>
+        </form>
+      </div>
+
+      <div class="info-card">
+        <h3>Información del Laboratorio</h3>
+        <br>
+        <p><strong>Ubicación:</strong> Sede del Instituto de Educación Superior Tecnológico Público Pasco.</p>
+        <br>
+        <p><strong>Horarios de Atención:</strong> Lunes a Viernes de 8:00 AM a 6:00 PM.</p>
+        <br>
+        <p><strong>Correo Electrónico:</strong> contacto@fablabpasco.org</p>
+        <br>
+        <p><strong>Teléfono / WhatsApp:</strong> +51 900 000 000</p>
+      </div>
     </div>
   </main>
 
-  <!-- Scripts -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>🛒 Carrito de Compras</h2>
+      <button class="close-cart-btn" id="closeCartBtn">&times;</button>
+    </div>
+    <div class="cart-body" id="cartItemsContainer">
+      <p class="empty-cart-msg">Tu carrito está vacío.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cartTotal">S/ 0.00</strong>
+      </div>
+      <div class="cart-actions-row">
+        <button class="btn btn-ghost" id="clearCartBtn" type="button">Vaciar</button>
+        <button class="btn btn-solid" id="checkoutBtn" type="button">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="compras.html">Tienda</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>
