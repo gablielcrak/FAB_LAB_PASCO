@@ -186,6 +186,164 @@
       }
       cargarTablaUsuarios();
     }
+
+    // ==========================================================================
+    // LÓGICA DEL CARRITO DE COMPRAS Y FILTROS (COMPRAS.HTML)
+    // ==========================================================================
+    let cart = JSON.parse(localStorage.getItem("fablab_cart") || "[]");
+
+    const cartDrawer = document.getElementById("cartDrawer");
+    const cartOverlay = document.getElementById("cartOverlay");
+    const openCartBtn = document.getElementById("openCartBtn");
+    const closeCartBtn = document.getElementById("closeCartBtn");
+    const clearCartBtn = document.getElementById("clearCartBtn");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const cartCountEl = document.getElementById("cartCount");
+    const cartItemsContainer = document.getElementById("cartItemsContainer");
+    const cartTotalEl = document.getElementById("cartTotal");
+
+    function updateCartUI() {
+      // Contar cantidad total de productos
+      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
+      if (cartCountEl) cartCountEl.textContent = totalCount;
+
+      // Renderizar productos en el Drawer
+      if (cartItemsContainer) {
+        if (cart.length === 0) {
+          cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
+        } else {
+          cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="cart-item">
+              <img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.title)}">
+              <div class="cart-item-details">
+                <h4>${escapeHtml(item.title)}</h4>
+                <div class="price">S/ ${parseFloat(item.price).toFixed(2)}</div>
+                <div class="cart-item-qty">
+                  <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
+                  <span>${item.qty}</span>
+                  <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                </div>
+              </div>
+              <button class="cart-item-remove" onclick="removeCartItem('${item.id}')" title="Eliminar">&times;</button>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Calcular Total General
+      const totalAmount = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
+      if (cartTotalEl) cartTotalEl.textContent = `S/ ${totalAmount.toFixed(2)}`;
+
+      // Guardar en localStorage
+      localStorage.setItem("fablab_cart", JSON.stringify(cart));
+    }
+
+    // Funciones Globales para manipular carrito desde el HTML generado
+    window.changeQty = function(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.id !== id);
+        }
+      }
+      updateCartUI();
+    };
+
+    window.removeCartItem = function(id) {
+      cart = cart.filter(i => i.id !== id);
+      updateCartUI();
+    };
+
+    // Agregar producto al carrito
+    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        const id = btn.getAttribute("data-id");
+        const title = btn.getAttribute("data-title");
+        const price = btn.getAttribute("data-price");
+        const img = btn.getAttribute("data-img");
+
+        const existing = cart.find(i => i.id === id);
+        if (existing) {
+          existing.qty++;
+        } else {
+          cart.push({ id, title, price, img, qty: 1 });
+        }
+
+        updateCartUI();
+        openDrawer();
+      });
+    });
+
+    // Abrir y Cerrar Panel Flotante
+    function openDrawer() {
+      if (cartDrawer && cartOverlay) {
+        cartDrawer.classList.add("active");
+        cartOverlay.classList.add("active");
+      }
+    }
+
+    function closeDrawer() {
+      if (cartDrawer && cartOverlay) {
+        cartDrawer.classList.remove("active");
+        cartOverlay.classList.remove("active");
+      }
+    }
+
+    if (openCartBtn) openCartBtn.addEventListener("click", openDrawer);
+    if (closeCartBtn) closeCartBtn.addEventListener("click", closeDrawer);
+    if (cartOverlay) cartOverlay.addEventListener("click", closeDrawer);
+
+    // Vaciar Carrito
+    if (clearCartBtn) {
+      clearCartBtn.addEventListener("click", function() {
+        if (cart.length > 0 && confirm("¿Deseas vaciar todos los productos del carrito?")) {
+          cart = [];
+          updateCartUI();
+        }
+      });
+    }
+
+    // Finalizar pedido por WhatsApp
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener("click", function() {
+        if (cart.length === 0) {
+          alert("Tu carrito está vacío. Agrega productos antes de realizar tu pedido.");
+          return;
+        }
+
+        let message = "Hola Fab Lab Pasco, deseo realizar el siguiente pedido:\n\n";
+        cart.forEach(item => {
+          message += `• ${item.title} (x${item.qty}) - S/ ${(parseFloat(item.price) * item.qty).toFixed(2)}\n`;
+        });
+        const total = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
+        message += `\n*Total a pagar: S/ ${total.toFixed(2)}*`;
+
+        const phone = "51900000000"; // Número oficial del laboratorio
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank");
+      });
+    }
+
+    // Filtros por Categoría en la Tienda
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.getAttribute("data-filter");
+        document.querySelectorAll(".product-card").forEach(card => {
+          if (filter === "all" || card.getAttribute("data-category") === filter) {
+            card.style.display = "flex";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    // Inicializar UI del carrito al cargar la página
+    updateCartUI();
   });
 
   // ==========================================================================

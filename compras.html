@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda / Compras | Fab Lab Pasco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Cabecera principal -->
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.svg" alt="Fab Lab Pasco">
+      <span class="logo-text">Fab Lab<br>Pasco</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="portafolio.html">Portafolio</a>
+      <a class="active" href="compras.html">Tienda</a>
+      <a href="blog.html">Blog/Recurso</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
+    </nav>
+    <div class="auth">
+      <!-- Botón del Carrito de Compras -->
+      <button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
+      <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
+      <a class="btn btn-solid" href="registro.html">Registra</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="about-header">
+      <h2>TIENDA Y SERVICIOS</h2>
+      <h1>Catálogo de Productos Maker</h1>
+      <p class="lead">Explora y solicita productos fabricados a medida en nuestro laboratorio con tecnología de Corte Láser, Impresión 3D y Sublimado.</p>
+    </div>
+
+    <!-- Filtros por categoría -->
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="corte-laser">🔥 Corte Láser</button>
+      <button class="filter-btn" data-filter="impresion-3d">🧊 Impresión 3D</button>
+      <button class="filter-btn" data-filter="sublimado">🎨 Sublimado</button>
+    </div>
+
+    <!-- Grilla de Productos -->
+    <div class="grid store-grid" id="productsGrid">
+      
+      <!-- ===== CORTE LÁSER ===== -->
+      <article class="card product-card" data-category="corte-laser">
+        <img src="assets/cortelaser01.webp" alt="Corte y Grabado Láser MDF">
+        <div class="card-body">
+          <span class="product-tag">Corte Láser</span>
+          <h3>Placa MDF Grabada</h3>
+          <p>Corte y grabado de alta precisión en madera MDF para letreros o regalos.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 25.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="cl-01" 
+                    data-title="Placa MDF Grabada" 
+                    data-price="25.00" 
+                    data-img="assets/cortelaser01.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="corte-laser">
+        <img src="assets/cortelaser02.webp" alt="Corte en Acrílico">
+        <div class="card-body">
+          <span class="product-tag">Corte Láser</span>
+          <h3>Estructura en Acrílico</h3>
+          <p>Piezas acrílicas translúcidas cortadas con precisión milimétrica.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 35.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="cl-02" 
+                    data-title="Estructura en Acrílico" 
+                    data-price="35.00" 
+                    data-img="assets/cortelaser02.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="corte-laser">
+        <img src="assets/cortelaser03.webp" alt="Caja Armable CNC">
+        <div class="card-body">
+          <span class="product-tag">Corte Láser</span>
+          <h3>Caja Armable Ensamblada</h3>
+          <p>Diseño de caja encajable en terciado/MDF sin necesidad de adhesivos.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 30.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="cl-03" 
+                    data-title="Caja Armable Ensamblada" 
+                    data-price="30.00" 
+                    data-img="assets/cortelaser03.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== IMPRESIÓN 3D ===== -->
+      <article class="card product-card" data-category="impresion-3d">
+        <img src="assets/3D_01.webp" alt="Prototipo Funcional 3D">
+        <div class="card-body">
+          <span class="product-tag">Impresión 3D</span>
+          <h3>Prototipo Mecánico 3D</h3>
+          <p>Pieza técnica impresa en PLA/PETG resistente para prototipos funcionales.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 45.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="3d-01" 
+                    data-title="Prototipo Mecánico 3D" 
+                    data-price="45.00" 
+                    data-img="assets/3D_01.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="impresion-3d">
+        <img src="assets/Modelo3D_01.webp" alt="Escultura 3D Detallada">
+        <div class="card-body">
+          <span class="product-tag">Impresión 3D</span>
+          <h3>Escultura 3D Artística</h3>
+          <p>Modelo tridimensional detallado con finos acabados de superficie.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 50.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="3d-02" 
+                    data-title="Escultura 3D Artística" 
+                    data-price="50.00" 
+                    data-img="assets/Modelo3D_01.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="impresion-3d">
+        <img src="assets/servicio-buho.webp" alt="Figura Búho Decorativo 3D">
+        <div class="card-body">
+          <span class="product-tag">Impresión 3D</span>
+          <h3>Figura Búho FabLab 3D</h3>
+          <p>Decoración temática impresa en filamento biodegradable de alta resolución.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 28.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="3d-03" 
+                    data-title="Figura Búho FabLab 3D" 
+                    data-price="28.00" 
+                    data-img="assets/servicio-buho.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== SUBLIMADO ===== -->
+      <article class="card product-card" data-category="sublimado">
+        <img src="assets/sublimado01.webp" alt="Taza Sublimada">
+        <div class="card-body">
+          <span class="product-tag">Sublimado</span>
+          <h3>Taza Personalizada FabLab</h3>
+          <p>Taza cerámica con impresión full color resistente al lavavajillas.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 18.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="sb-01" 
+                    data-title="Taza Personalizada FabLab" 
+                    data-price="18.00" 
+                    data-img="assets/sublimado01.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="sublimado">
+        <img src="assets/sublimado02.webp" alt="Polo Sublimado">
+        <div class="card-body">
+          <span class="product-tag">Sublimado</span>
+          <h3>Polo / Camiseta Maker</h3>
+          <p>Prenda textil con diseño personalizado de alta durabilidad y viveza.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 35.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="sb-02" 
+                    data-title="Polo / Camiseta Maker" 
+                    data-price="35.00" 
+                    data-img="assets/sublimado02.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="sublimado">
+        <img src="assets/sublimador03.webp" alt="Llavero / Placa Sublimada">
+        <div class="card-body">
+          <span class="product-tag">Sublimado</span>
+          <h3>Llavero / Placa de Metal</h3>
+          <p>Llavero metálico promocional sublimado con tu logo o diseño favorito.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 12.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="sb-03" 
+                    data-title="Llavero / Placa de Metal" 
+                    data-price="12.00" 
+                    data-img="assets/sublimador03.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card product-card" data-category="sublimado">
+        <img src="assets/servicio-boton.webp" alt="Botones y Pines Promocionales">
+        <div class="card-body">
+          <span class="product-tag">Sublimado</span>
+          <h3>Pines Promocionales (Pack)</h3>
+          <p>Chapas y botones de 55mm ideados para campañas o souvenirs del laboratorio.</p>
+          <div class="product-price-row">
+            <span class="price">S/ 5.00</span>
+            <button class="btn btn-solid add-to-cart-btn" 
+                    data-id="sb-04" 
+                    data-title="Pines Promocionales (Pack)" 
+                    data-price="5.00" 
+                    data-img="assets/servicio-boton.webp">
+              + Agregar
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- PANEL LATERAL DEL CARRITO DE COMPRAS (DRAWER) -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>🛒 Carrito de Compras</h2>
+      <button class="close-cart-btn" id="closeCartBtn">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cartItemsContainer">
+      <!-- Los ítems del carrito se cargarán dinámicamente con JS -->
+      <p class="empty-cart-msg">Tu carrito está vacío.</p>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <strong id="cartTotal">S/ 0.00</strong>
+      </div>
+      <div class="cart-actions-row">
+        <button class="btn btn-ghost" id="clearCartBtn" type="button">Vaciar</button>
+        <button class="btn btn-solid" id="checkoutBtn" type="button">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Pie de Página -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="compras.html">Tienda</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
