@@ -194,20 +194,17 @@
 
     const cartDrawer = document.getElementById("cartDrawer");
     const cartOverlay = document.getElementById("cartOverlay");
-    const openCartBtn = document.getElementById("openCartBtn");
     const closeCartBtn = document.getElementById("closeCartBtn");
     const clearCartBtn = document.getElementById("clearCartBtn");
     const checkoutBtn = document.getElementById("checkoutBtn");
-    const cartCountEl = document.getElementById("cartCount");
     const cartItemsContainer = document.getElementById("cartItemsContainer");
     const cartTotalEl = document.getElementById("cartTotal");
 
     function updateCartUI() {
-      // Contar cantidad total de productos
       const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
-      if (cartCountEl) cartCountEl.textContent = totalCount;
+      const currentCountEl = document.getElementById("cartCount");
+      if (currentCountEl) currentCountEl.textContent = totalCount;
 
-      // Renderizar productos en el Drawer
       if (cartItemsContainer) {
         if (cart.length === 0) {
           cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
@@ -230,15 +227,12 @@
         }
       }
 
-      // Calcular Total General
       const totalAmount = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
       if (cartTotalEl) cartTotalEl.textContent = `S/ ${totalAmount.toFixed(2)}`;
 
-      // Guardar en localStorage
       localStorage.setItem("fablab_cart", JSON.stringify(cart));
     }
 
-    // Funciones Globales para manipular carrito desde el HTML generado
     window.changeQty = function(id, delta) {
       const item = cart.find(i => i.id === id);
       if (item) {
@@ -255,7 +249,6 @@
       updateCartUI();
     };
 
-    // Agregar producto al carrito
     document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         const id = btn.getAttribute("data-id");
@@ -275,7 +268,6 @@
       });
     });
 
-    // Abrir y Cerrar Panel Flotante
     function openDrawer() {
       if (cartDrawer && cartOverlay) {
         cartDrawer.classList.add("active");
@@ -290,11 +282,17 @@
       }
     }
 
-    if (openCartBtn) openCartBtn.addEventListener("click", openDrawer);
+    // Delegación de eventos para abrir el carrito (soporta dinámicos en el header)
+    document.addEventListener("click", function (e) {
+      const btn = e.target.closest("#openCartBtn");
+      if (btn) {
+        openDrawer();
+      }
+    });
+
     if (closeCartBtn) closeCartBtn.addEventListener("click", closeDrawer);
     if (cartOverlay) cartOverlay.addEventListener("click", closeDrawer);
 
-    // Vaciar Carrito
     if (clearCartBtn) {
       clearCartBtn.addEventListener("click", function() {
         if (cart.length > 0 && confirm("¿Deseas vaciar todos los productos del carrito?")) {
@@ -304,7 +302,6 @@
       });
     }
 
-    // Finalizar pedido por WhatsApp
     if (checkoutBtn) {
       checkoutBtn.addEventListener("click", function() {
         if (cart.length === 0) {
@@ -319,13 +316,12 @@
         const total = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
         message += `\n*Total a pagar: S/ ${total.toFixed(2)}*`;
 
-        const phone = "51900000000"; // Número oficial del laboratorio
+        const phone = "51900000000";
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, "_blank");
       });
     }
 
-    // Filtros por Categoría en la Tienda
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -342,7 +338,6 @@
       });
     });
 
-    // Inicializar UI del carrito al cargar la página
     updateCartUI();
   });
 
@@ -375,7 +370,6 @@
         );
       }).join('');
 
-      // Eventos de edición de usuario
       document.querySelectorAll(".edit-btn").forEach(function (btn) {
         btn.addEventListener("click", function () {
           const card = document.getElementById("editUserCard");
@@ -389,7 +383,6 @@
         });
       });
 
-      // Eventos de eliminación de usuario
       document.querySelectorAll(".delete-btn").forEach(function (btn) {
         btn.addEventListener("click", async function () {
           const id = btn.getAttribute("data-id");
@@ -409,7 +402,6 @@
     }
   }
 
-  // Cancelar Edición
   const cancelBtn = document.getElementById("cancelEditBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", function () {
@@ -417,7 +409,6 @@
     });
   }
 
-  // Guardar Cambios del Usuario Editado
   const editForm = document.getElementById("editUserForm");
   if (editForm) {
     editForm.addEventListener("submit", async function (e) {
@@ -446,7 +437,7 @@
   }
 
   // ==========================================================================
-  // 5. INTERFAZ Y NAVEGACIÓN
+  // 5. INTERFAZ Y NAVEGACIÓN (INCLUYENDO SESIÓN Y BOTÓN CARRITO)
   // ==========================================================================
   const header = document.querySelector(".site-header");
   const toggle = document.querySelector(".menu-toggle");
@@ -475,7 +466,7 @@
 
   setupThemeToggle(themeToggle);
 
-  // Estado de Sesión Activa
+  // Estado de Sesión Activa (Mantiene visible el botón de carrito)
   const session = JSON.parse(localStorage.getItem("fablab_session") || "null");
   const auth = document.querySelector(".auth");
 
@@ -487,7 +478,13 @@
 
     if (auth) {
       const isLightActive = document.body.classList.contains("light-mode");
+      const cart = JSON.parse(localStorage.getItem("fablab_cart") || "[]");
+      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
+
       auth.innerHTML =
+        '<button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">' +
+        '🛒 <span class="cart-count" id="cartCount">' + totalCount + '</span>' +
+        '</button>' +
         '<button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">' +
         (isLightActive ? "☀️" : "🌙") +
         '</button>' +
