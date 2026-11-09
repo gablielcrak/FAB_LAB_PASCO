@@ -492,7 +492,7 @@ textarea {
   resize: vertical;
 }
 
-/* CAMPO DE CONTRASEÑA CON OJO */
+/* CONTENEDOR DE CONTRASEÑA CON OJO VECTORIAL */
 .password-wrap {
   position: relative;
   display: flex;
@@ -510,16 +510,22 @@ textarea {
   border: none;
   color: #aaaaaa;
   cursor: pointer;
-  font-size: 16px;
   padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
+  transition: color 0.2s ease;
 }
 
 .toggle-password:hover {
-  opacity: 0.8;
+  color: #ffffff;
+}
+
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 .form-actions {
@@ -672,6 +678,10 @@ body.light-mode .form-card p {
 
 body.light-mode .toggle-password {
   color: #4a5568;
+}
+
+body.light-mode .toggle-password:hover {
+  color: #1a202c;
 }
 
 body.light-mode .step-num {

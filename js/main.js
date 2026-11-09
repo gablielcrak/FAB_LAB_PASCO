@@ -9,6 +9,11 @@
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
     : null;
 
+  // Iconos SVG para el ojo (Ojo cerrado / Ojo abierto con pestañas)
+  const SVG_EYE_CLOSED = '<svg class="eye-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c3 4 6 6 9 6s6-2 9-6"/><line x1="12" y1="16" x2="12" y2="20"/><line x1="7.5" y1="15" x2="6" y2="18.5"/><line x1="16.5" y1="15" x2="18" y2="18.5"/><line x1="4" y1="12" x2="1.5" y2="14.5"/><line x1="20" y1="12" x2="22.5" y2="14.5"/></svg>';
+
+  const SVG_EYE_OPEN = '<svg class="eye-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c3-5 6-7 10-7s7 2 10 7c-3 5-6 7-10 7s-7-2-10-7z"/><circle cx="12" cy="14" r="3" fill="currentColor"/><line x1="12" y1="7" x2="12" y2="3"/><line x1="7.5" y1="8" x2="6" y2="4.5"/><line x1="16.5" y1="8" x2="18" y2="4.5"/><line x1="4" y1="11" x2="1.5" y2="8.5"/><line x1="20" y1="11" x2="22.5" y2="8.5"/></svg>';
+
   // ==========================================================================
   // 2. MÓDULO CRUD GENERAL (OPERACIONES CON LA BASE DE DATOS)
   // ==========================================================================
@@ -86,14 +91,14 @@
   // 3. CARGA DINÁMICA DE DATOS Y EVENTOS DE INTERFAZ
   // ==========================================================================
   document.addEventListener("DOMContentLoaded", function () {
-    // Control para mostrar/ocultar contraseña (Ojo)
+    // Control para mostrar/ocultar contraseña mediante SVGs
     document.querySelectorAll(".toggle-password").forEach(function (btn) {
       btn.addEventListener("click", function () {
         const input = btn.previousElementSibling || btn.parentElement.querySelector("input");
         if (input) {
           const isPassword = input.getAttribute("type") === "password";
           input.setAttribute("type", isPassword ? "text" : "password");
-          btn.textContent = isPassword ? "🙈" : "👁️";
+          btn.innerHTML = isPassword ? SVG_EYE_OPEN : SVG_EYE_CLOSED;
         }
       });
     });
