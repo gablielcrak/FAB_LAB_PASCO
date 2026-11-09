@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Cabecera principal -->
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="assets/logo.svg" alt="Fab Lab Pasco">
@@ -25,35 +26,113 @@
       <a href="contacto.html">Contacto</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
     </div>
   </header>
 
   <main class="page">
-    <h1>Nosotros</h1>
-    <p class="lead">Fab Lab Pasco es un espacio de fabricación digital para estudiantes, emprendedores y makers de la región. Convertimos ideas en objetos reales con diseño, prototipado y producción de baja escala.</p>
-    <section class="grid">
-      <article class="card">
-        <div class="card-body">
-          <h3>Misión</h3>
-          <p>Democratizar el acceso a herramientas de diseño y fabricación digital en Pasco.</p>
+    <div class="about-header">
+      <h2>NUESTRA INSTITUCIÓN</h2>
+      <h1>Innovación Tecnológica desde el Corazón de Pasco</h1>
+      <p class="lead">Fab Lab Pasco nace como un centro estratégico de fabricación digital en alianza con la formación técnica superior, convirtiendo ideas en prototipos reales de alto impacto local.</p>
+    </div>
+
+    <!-- Sección Showcase Destacada con la imagen del Instituto -->
+    <section class="about-showcase">
+      <div class="about-image-wrapper">
+        <img src="assets/Instituto_Tecnológico_Público_Pasco.webp" alt="Instituto de Educación Superior Tecnológico Público Pasco" class="about-img">
+        <div class="about-badge">
+          <span class="badge-icon">🏛️</span>
+          <div class="badge-text">
+            <strong>Sede Central</strong>
+            <span>Instituto Tecnológico Público Pasco</span>
+          </div>
         </div>
-      </article>
-      <article class="card">
-        <div class="card-body">
-          <h3>Visión</h3>
-          <p>Ser el laboratorio de referencia para innovación local y aprendizaje práctico.</p>
+      </div>
+      <div class="about-story">
+        <h3>Un espacio maker de nivel tecnológico</h3>
+        <p>Ubicados en la sede del <strong>Instituto de Educación Superior Tecnológico Público Pasco</strong>, integramos equipamiento industrial de prototipado rápido con el talento de nuestros estudiantes, docentes e innovadores regionales.</p>
+        <p>Nuestro compromiso es impulsar el ecosistema maker a través de la manufactura aditiva, corte láser CNC y modelado computacional 3D.</p>
+        
+        <div class="about-highlights">
+          <div class="highlight-item">
+            <span class="highlight-val">100%</span>
+            <span class="highlight-lbl">Acceso Público e Inclusivo</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-val">+7</span>
+            <span class="highlight-lbl">Áreas Técnicas Especializadas</span>
+          </div>
         </div>
-      </article>
-      <article class="card">
-        <div class="card-body">
-          <h3>Servicios</h3>
-          <p>Impresión 3D, corte láser, modelado, capacitaciones y acompañamiento de proyectos.</p>
-        </div>
-      </article>
+      </div>
+    </section>
+
+    <!-- Pilares fundamentales -->
+    <section class="section-padded">
+      <h2>PILARES</h2>
+      <h1>Misión, Visión y Valor Añadido</h1>
+      <div class="grid">
+        <article class="card step-card">
+          <div class="card-body">
+            <span class="step-num">01</span>
+            <h3>Misión</h3>
+            <p>Democratizar el acceso a herramientas de diseño y fabricación digital en Pasco, formando capacidades técnicas avanzadas en la comunidad académica y emprendedora.</p>
+          </div>
+        </article>
+
+        <article class="card step-card">
+          <div class="card-body">
+            <span class="step-num">02</span>
+            <h3>Visión</h3>
+            <p>Consolidarnos como el laboratorio de fabricación digital de referencia tecnológica en la región central del Perú para la innovación y transferencia de conocimiento.</p>
+          </div>
+        </article>
+
+        <article class="card step-card">
+          <div class="card-body">
+            <span class="step-num">03</span>
+            <h3>Servicios e Impacto</h3>
+            <p>Impresión 3D, corte y grabado láser CNC, desarrollo de prototipos electrónicos, mentorías técnicas y talleres prácticos abiertos.</p>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
+
+  <!-- Pie de Página -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
