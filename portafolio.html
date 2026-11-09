@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Cabecera principal -->
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="assets/logo.svg" alt="Fab Lab Pasco">
@@ -25,6 +26,7 @@
       <a href="contacto.html">Contacto</a>
     </nav>
     <div class="auth">
+      <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
       <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
       <a class="btn btn-solid" href="registro.html">Registra</a>
     </div>
@@ -33,30 +35,67 @@
   <main class="page">
     <h1>Portafolio</h1>
     <p class="lead">Proyectos fabricados en el laboratorio: impresión 3D, corte láser, diseño digital y prototipado rápido.</p>
-    <section class="grid">
+
+    <!-- Grilla de proyectos (se renderiza dinámicamente desde Supabase si hay conexión) -->
+    <div class="grid">
       <article class="card">
-        <img src="assets/servicio-boton.jpg" alt="Máquina de pines">
+        <img src="assets/Llavero_01.webp" alt="Llaveros Personalizados">
         <div class="card-body">
-          <h3>Máquina de pines</h3>
-          <p>Prensa personalizada para chapas y botones promocionales.</p>
+          <h3>Llaveros Personalizados</h3>
+          <p>Prensa personalizada para chapas, botones promocionales y llaveros.</p>
         </div>
       </article>
+
       <article class="card">
-        <img src="assets/servicio-buho.jpg" alt="Búho 3D">
+        <img src="assets/Modelo3D_01.webp" alt="Escultura y Modelo 3D">
         <div class="card-body">
-          <h3>Escultura 3D</h3>
-          <p>Modelado e impresión de piezas decorativas de alta definición.</p>
+          <h3>Escultura y Modelo 3D</h3>
+          <p>Modelado e impresión 3D de piezas decorativas y prototipos de alta definición.</p>
         </div>
       </article>
+
       <article class="card">
-        <img src="assets/servicio-laptop.jpg" alt="Soporte laptop">
+        <img src="assets/MDF_01.webp" alt="Corte Láser en MDF">
         <div class="card-body">
-          <h3>Soporte de laptop</h3>
-          <p>Corte láser en madera para productos funcionales y ligeros.</p>
+          <h3>Corte Láser en MDF</h3>
+          <p>Corte y grabado preciso en madera MDF para estructuras y productos funcionales.</p>
         </div>
       </article>
-    </section>
+    </div>
   </main>
+
+  <!-- Pie de Página -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
