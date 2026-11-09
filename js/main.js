@@ -83,9 +83,21 @@
   };
 
   // ==========================================================================
-  // 3. CARGA DINÁMICA DE DATOS DESDE SUPABASE EN LAS PÁGINAS
+  // 3. CARGA DINÁMICA DE DATOS Y EVENTOS DE INTERFAZ
   // ==========================================================================
   document.addEventListener("DOMContentLoaded", function () {
+    // Control para mostrar/ocultar contraseña (Ojo)
+    document.querySelectorAll(".toggle-password").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const input = btn.previousElementSibling || btn.parentElement.querySelector("input");
+        if (input) {
+          const isPassword = input.getAttribute("type") === "password";
+          input.setAttribute("type", isPassword ? "text" : "password");
+          btn.textContent = isPassword ? "🙈" : "👁️";
+        }
+      });
+    });
+
     // Cargar proyectos en portafolio.html
     const portafolioContainer = document.querySelector("main.page .grid");
     if (portafolioContainer && window.location.pathname.includes("portafolio.html")) {

@@ -492,6 +492,36 @@ textarea {
   resize: vertical;
 }
 
+/* CAMPO DE CONTRASEÑA CON OJO */
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrap input {
+  padding-right: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #aaaaaa;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.toggle-password:hover {
+  opacity: 0.8;
+}
+
 .form-actions {
   margin-top: 18px;
   display: flex;
@@ -637,6 +667,10 @@ body.light-mode .info-card {
 body.light-mode .card p,
 body.light-mode .article p,
 body.light-mode .form-card p {
+  color: #4a5568;
+}
+
+body.light-mode .toggle-password {
   color: #4a5568;
 }
 

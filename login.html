@@ -38,8 +38,13 @@
       <form class="form-card" id="loginForm">
         <label for="loginCorreo">Correo</label>
         <input id="loginCorreo" type="email" required>
+        
         <label for="loginClave">Contraseña</label>
-        <input id="loginClave" type="password" required>
+        <div class="password-wrap">
+          <input id="loginClave" type="password" required>
+          <button type="button" class="toggle-password" aria-label="Mostrar u ocultar contraseña">👁️</button>
+        </div>
+
         <div class="form-actions">
           <button class="btn btn-solid" type="submit">Entrar</button>
         </div>

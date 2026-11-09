@@ -40,8 +40,13 @@
         <input id="regNombre" required>
         <label for="regCorreo">Correo</label>
         <input id="regCorreo" type="email" required>
+        
         <label for="regClave">Contraseña</label>
-        <input id="regClave" type="password" minlength="6" required>
+        <div class="password-wrap">
+          <input id="regClave" type="password" minlength="6" required>
+          <button type="button" class="toggle-password" aria-label="Mostrar u ocultar contraseña">👁️</button>
+        </div>
+
         <div class="form-actions">
           <button class="btn btn-solid" type="submit">Crear cuenta</button>
         </div>
