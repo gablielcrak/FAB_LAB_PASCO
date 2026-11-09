@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración | Fab Lab Pasco</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="assets/logo.svg" alt="Fab Lab Pasco">
+      <span class="logo-text">Fab Lab<br>Pasco</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="portafolio.html">Portafolio</a>
+      <a href="blog.html">Blog/Recurso</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="contacto.html">Contacto</a>
+      <a class="active" href="admin.html" id="adminNavLink" style="display:none;">Admin</a>
+    </nav>
+    <div class="auth">
+      <button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">🌙</button>
+      <a class="btn btn-ghost" href="login.html">Inicia sesion</a>
+      <a class="btn btn-solid" href="registro.html">Registra</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="about-header">
+      <h2>PANEL DE CONTROL</h2>
+      <h1>Gestión de Usuarios</h1>
+      <p class="lead">Visualiza, modifica roles, contraseñas y administra los accesos registrados en Supabase.</p>
+    </div>
+
+    <!-- Tabla de Administración -->
+    <section class="admin-section">
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usuariosTableBody">
+            <tr>
+              <td colspan="5" style="text-align:center;">Cargando usuarios...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Formulario Modal / Tarjeta de Edición -->
+      <div class="admin-card" id="editUserCard" style="display:none; margin-top: 32px;">
+        <h3>Editar Usuario</h3>
+        <form id="editUserForm">
+          <input type="hidden" id="editUserId">
+          <label for="editNombre">Nombre</label>
+          <input id="editNombre" required>
+          
+          <label for="editCorreo">Correo</label>
+          <input id="editCorreo" type="email" required>
+          
+          <label for="editClave">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+          <input id="editClave" type="text">
+
+          <label class="checkbox-label" style="margin-top:14px; display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="editEsAdmin" style="width:auto;"> Es Administrador
+          </label>
+
+          <div class="form-actions" style="margin-top: 20px;">
+            <button class="btn btn-solid" type="submit">Guardar Cambios</button>
+            <button class="btn btn-ghost" type="button" id="cancelEditBtn">Cancelar</button>
+          </div>
+          <p class="msg" id="editFormMsg"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <img src="assets/logo.svg" alt="Fab Lab Pasco">
+          <span class="logo-text">Fab Lab<br>Pasco</span>
+        </a>
+        <p>Espacio de fabricación digital e innovación local para estudiantes, emprendedores y makers en Pasco, Perú.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Portafolio</a>
+        <a href="blog.html">Blog/Recurso</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="footer-info">
+        <h4>Horario y Contacto</h4>
+        <p>Pasco, Perú</p>
+        <p>Lun - Vie, 8:00 a 18:00</p>
+        <p>contacto@fablabpasco.org</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; Fab Lab Pasco. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
