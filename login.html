@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Cabecera Principal -->
   <header class="site-header">
     <a class="logo" href="index.html">
       <img src="assets/logo.svg" alt="Fab Lab Pasco">
@@ -36,11 +37,12 @@
     </div>
   </header>
 
+  <!-- Contenido Principal Centrado y Estrecho -->
   <main class="page">
-    <div class="auth-wrap" style="max-width: 480px; margin: 0 auto;">
-      <div class="form-card" style="width: 100%;">
+    <div class="auth-single-wrap">
+      <div class="auth-single-card">
         <h2>Iniciar Sesión</h2>
-        <p style="margin-bottom: 20px;">Ingresa tus credenciales para acceder a la plataforma.</p>
+        <p class="auth-subtitle">Ingresa tus credenciales para acceder a la plataforma.</p>
 
         <form id="loginForm">
           <label for="loginCorreo">Correo Electrónico</label>
@@ -55,7 +57,7 @@
           </div>
 
           <div class="form-actions" style="margin-top: 24px;">
-            <button class="btn btn-solid" type="submit" style="width: 100%;">Ingresar</button>
+            <button class="btn btn-solid" type="submit" style="width: 100%; height: 42px;">Ingresar</button>
           </div>
           <p class="msg" id="formMsg"></p>
         </form>
@@ -63,6 +65,7 @@
     </div>
   </main>
 
+  <!-- Panel Lateral del Carrito -->
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-drawer" id="cartDrawer">
     <div class="cart-header">
@@ -84,6 +87,7 @@
     </div>
   </aside>
 
+  <!-- Pie de Página -->
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-brand">
