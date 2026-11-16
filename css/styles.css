@@ -370,12 +370,16 @@ img {
 }
 
 /* ==========================================================================
-   5. GRILLAS, TARJETAS Y PASOS METODOLÓGICOS
+   5. GRILLAS, TARJETAS, PASOS Y ESPECIFICACIONES TÉCNICAS
    ========================================================================== */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .card {
@@ -425,6 +429,27 @@ img {
   color: #888;
   display: block;
   margin-bottom: 8px;
+}
+
+.specs-list {
+  list-style: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.specs-list li {
+  font-size: 13px;
+  color: #d8d8d8;
+  line-height: 1.5;
+}
+
+.specs-list li strong {
+  color: #ffffff;
+  font-weight: 600;
 }
 
 /* ==========================================================================
@@ -1294,6 +1319,18 @@ body.light-mode .form-card p {
   color: #4a5568;
 }
 
+body.light-mode .specs-list {
+  border-top-color: #e2e8f0;
+}
+
+body.light-mode .specs-list li {
+  color: #4a5568;
+}
+
+body.light-mode .specs-list li strong {
+  color: #1a202c;
+}
+
 body.light-mode .toggle-password {
   color: #4a5568;
 }
@@ -1535,6 +1572,10 @@ body.light-mode .footer-bottom {
     grid-template-columns: 1fr;
   }
 
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .circles {
     gap: 28px;
   }
@@ -1575,5 +1616,11 @@ body.light-mode .footer-bottom {
   .footer-container {
     grid-template-columns: 1fr;
     gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
   }
 }
