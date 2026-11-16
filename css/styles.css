@@ -160,17 +160,19 @@ img {
 }
 
 /* ==========================================================================
-   2. PORTADA HERO (INICIO)
+   2. PORTADA HERO Y HERO OVERLAY (INICIO)
    ========================================================================== */
 .hero {
   padding: 6px 54px 10px;
 }
 
 .hero-frame {
+  position: relative;
   width: 100%;
-  height: min(46vh, 430px);
+  height: min(54vh, 470px);
+  min-height: 360px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 14px;
   background: #111;
 }
 
@@ -179,6 +181,79 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center 42%;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 5, 0.9) 0%,
+    rgba(5, 5, 5, 0.65) 55%,
+    rgba(5, 5, 5, 0.2) 100%
+  );
+  display: flex;
+  align-items: center;
+  padding: 36px 52px;
+}
+
+.hero-overlay-content {
+  max-width: 600px;
+  text-align: left;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #f3f3f3;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.hero-overlay-content h1 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 3.4vw, 44px);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.hero-overlay-content p {
+  font-size: clamp(13.5px, 1.2vw, 15.5px);
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-overlay .btn-solid {
+  background: #ffffff;
+  color: #111111;
+  border-color: #ffffff;
+  height: 40px;
+  padding: 0 22px;
+}
+
+.hero-overlay .btn-ghost {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.35);
+  height: 40px;
+  padding: 0 22px;
 }
 
 /* ==========================================================================
@@ -1435,7 +1510,23 @@ body.light-mode .footer-bottom {
   }
 
   .hero-frame {
-    height: 220px;
+    height: auto;
+    min-height: 360px;
+  }
+
+  .hero-frame img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-overlay {
+    position: relative;
+    padding: 36px 24px;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.82) 0%,
+      rgba(5, 5, 5, 0.92) 100%
+    );
   }
 
   .grid,
