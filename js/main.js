@@ -1,452 +1,53 @@
-(function () {
-  // ==========================================================================
-  // 1. CONFIGURACIÓN E INICIALIZACIÓN DE SUPABASE Y ASSETS SVG
-  // ==========================================================================
-  const SUPABASE_URL = "https://qwlgeohyjjgzkaserznk.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_8h0MU4A7j7_yA8Xl7GXebQ_n-qATjUI";
+/* ==========================================================================
+   CONFIGURACIÓN DE SUPABASE (Reemplaza con las credenciales de tu proyecto)
+   ========================================================================== */
+const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
+const SUPABASE_ANON_KEY = "TU_SUPABASE_ANON_KEY";
 
-  const supabase = window.supabase
-    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+const supabaseClient =
+  window.supabase && SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("TU-PROYECTO")
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
 
-  // Iconos SVG vectoriales para la contraseña (Ojo cerrado / Ojo abierto con pestañas)
-  const SVG_EYE_CLOSED = '<svg class="eye-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c3 4 6 6 9 6s6-2 9-6"/><line x1="12" y1="16" x2="12" y2="20"/><line x1="7.5" y1="15" x2="6" y2="18.5"/><line x1="16.5" y1="15" x2="18" y2="18.5"/><line x1="4" y1="12" x2="1.5" y2="14.5"/><line x1="20" y1="12" x2="22.5" y2="14.5"/></svg>';
-  const SVG_EYE_OPEN = '<svg class="eye-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c3-5 6-7 10-7s7 2 10 7c-3 5-6 7-10 7s-7-2-10-7z"/><circle cx="12" cy="14" r="3" fill="currentColor"/><line x1="12" y1="7" x2="12" y2="3"/><line x1="7.5" y1="8" x2="6" y2="4.5"/><line x1="16.5" y1="8" x2="18" y2="4.5"/><line x1="4" y1="11" x2="1.5" y2="8.5"/><line x1="20" y1="11" x2="22.5" y2="8.5"/></svg>';
+const WHATSAPP_NUMBER = "51938500836";
 
-  // ==========================================================================
-  // 2. MÓDULO CRUD GENERAL (OPERACIONES EN LA BASE DE DATOS)
-  // ==========================================================================
-  window.FabLabDB = {
-    // --- USUARIOS Y ROL ADMIN ---
-    async registrarUsuario(nombre, correo, clave) {
-      const { data, error } = await supabase
-        .from("usuarios")
-        .insert([{ nombre, correo, clave, es_admin: false }])
-        .select();
-      if (error) throw error;
-      return data[0];
-    },
+document.addEventListener("DOMContentLoaded", () => {
+  initMobileMenu();
+  initThemeToggle();
+  initSessionUI();
+  initCart();
+  initStoreFilters();
+  initPasswordToggles();
+  initRegisterForm();
+  initLoginForm();
+  initContactForm();
+  initAdminPanel();
+});
 
-    async loginUsuario(correo, clave) {
-      const { data, error } = await supabase
-        .from("usuarios")
-        .select("*")
-        .eq("correo", correo)
-        .eq("clave", clave)
-        .single();
-      if (error) throw error;
-      return data;
-    },
+/* ==========================================================================
+   1. MENÚ RESPONSIVO MÓVIL (☰)
+   ========================================================================== */
+function initMobileMenu() {
+  const menuToggle = document.querySelector(".menu-toggle");
+  const siteHeader = document.querySelector(".site-header");
 
-    async obtenerTodosUsuarios() {
-      const { data, error } = await supabase
-        .from("usuarios")
-        .select("*")
-        .order("id", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
+  if (!menuToggle || !siteHeader) return;
 
-    async actualizarUsuario(id, payload) {
-      const { data, error } = await supabase
-        .from("usuarios")
-        .update(payload)
-        .eq("id", id)
-        .select();
-      if (error) throw error;
-      return data[0];
-    },
-
-    async eliminarUsuario(id) {
-      const { error } = await supabase
-        .from("usuarios")
-        .delete()
-        .eq("id", id);
-      if (error) throw error;
-      return true;
-    },
-
-    // --- MENSAJES DE CONTACTO ---
-    async enviarContacto(nombre, correo, mensaje) {
-      const { data, error } = await supabase
-        .from("contacto_mensajes")
-        .insert([{ nombre, correo, mensaje }]);
-      if (error) throw error;
-      return data;
-    },
-
-    // --- PORTAFOLIO ---
-    async obtenerPortafolio() {
-      const { data, error } = await supabase
-        .from("portafolio")
-        .select("*")
-        .order("id", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-
-    async crearProyecto(titulo, descripcion, imagen_url) {
-      const { data, error } = await supabase
-        .from("portafolio")
-        .insert([{ titulo, descripcion, imagen_url }])
-        .select();
-      if (error) throw error;
-      return data[0];
-    },
-
-    // --- BLOG / RECURSOS ---
-    async obtenerArticulos() {
-      const { data, error } = await supabase
-        .from("blog_articulos")
-        .select("*")
-        .order("id", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-
-    async crearArticulo(categoria, titulo, contenido) {
-      const { data, error } = await supabase
-        .from("blog_articulos")
-        .insert([{ categoria, titulo, contenido }])
-        .select();
-      if (error) throw error;
-      return data[0];
-    }
-  };
-
-  // ==========================================================================
-  // 3. CARGA DINÁMICA DE DATOS Y EVENTOS DE INTERFAZ
-  // ==========================================================================
-  document.addEventListener("DOMContentLoaded", function () {
-    // Control para alternar visibilidad de contraseña (Ojo SVG)
-    document.querySelectorAll(".toggle-password").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        const input = btn.previousElementSibling || btn.parentElement.querySelector("input");
-        if (input) {
-          const isPassword = input.getAttribute("type") === "password";
-          input.setAttribute("type", isPassword ? "text" : "password");
-          btn.innerHTML = isPassword ? SVG_EYE_OPEN : SVG_EYE_CLOSED;
-        }
-      });
-    });
-
-    // Cargar proyectos dinámicamente en portafolio.html
-    const portafolioContainer = document.querySelector("main.page .grid");
-    if (portafolioContainer && window.location.pathname.includes("portafolio.html")) {
-      window.FabLabDB.obtenerPortafolio()
-        .then(function (proyectos) {
-          if (proyectos && proyectos.length > 0) {
-            portafolioContainer.innerHTML = proyectos.map(function (p) {
-              return (
-                '<article class="card">' +
-                  '<img src="' + escapeHtml(p.imagen_url) + '" alt="' + escapeHtml(p.titulo) + '">' +
-                  '<div class="card-body">' +
-                    '<h3>' + escapeHtml(p.titulo) + '</h3>' +
-                    '<p>' + escapeHtml(p.descripcion) + '</p>' +
-                  '</div>' +
-                '</article>'
-              );
-            }).join('');
-          }
-        })
-        .catch(function (err) {
-          console.error("Error al cargar portafolio desde Supabase:", err);
-        });
-    }
-
-    // Cargar artículos dinámicamente en blog.html
-    const articlesContainer = document.querySelector(".articles");
-    if (articlesContainer && window.location.pathname.includes("blog.html")) {
-      window.FabLabDB.obtenerArticulos()
-        .then(function (articulos) {
-          if (articulos && articulos.length > 0) {
-            articlesContainer.innerHTML = articulos.map(function (a) {
-              return (
-                '<article class="article">' +
-                  '<span>' + escapeHtml(a.categoria) + '</span>' +
-                  '<h3>' + escapeHtml(a.titulo) + '</h3>' +
-                  '<p>' + escapeHtml(a.contenido) + '</p>' +
-                '</article>'
-              );
-            }).join('');
-          }
-        })
-        .catch(function (err) {
-          console.error("Error al cargar artículos desde Supabase:", err);
-        });
-    }
-
-    // Lógica para admin.html (Seguridad y carga de tabla de administración)
-    if (window.location.pathname.includes("admin.html")) {
-      const session = JSON.parse(localStorage.getItem("fablab_session") || "null");
-      if (!session || !session.es_admin) {
-        alert("Acceso restringido únicamente a usuarios Administradores.");
-        window.location.href = "login.html";
-        return;
-      }
-      cargarTablaUsuarios();
-    }
-
-    // ==========================================================================
-    // LÓGICA DEL CARRITO DE COMPRAS Y FILTROS (COMPRAS.HTML)
-    // ==========================================================================
-    let cart = JSON.parse(localStorage.getItem("fablab_cart") || "[]");
-
-    const cartDrawer = document.getElementById("cartDrawer");
-    const cartOverlay = document.getElementById("cartOverlay");
-    const closeCartBtn = document.getElementById("closeCartBtn");
-    const clearCartBtn = document.getElementById("clearCartBtn");
-    const checkoutBtn = document.getElementById("checkoutBtn");
-    const cartItemsContainer = document.getElementById("cartItemsContainer");
-    const cartTotalEl = document.getElementById("cartTotal");
-
-    function updateCartUI() {
-      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
-      const currentCountEl = document.getElementById("cartCount");
-      if (currentCountEl) currentCountEl.textContent = totalCount;
-
-      if (cartItemsContainer) {
-        if (cart.length === 0) {
-          cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
-        } else {
-          cartItemsContainer.innerHTML = cart.map(item => `
-            <div class="cart-item">
-              <img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.title)}">
-              <div class="cart-item-details">
-                <h4>${escapeHtml(item.title)}</h4>
-                <div class="price">S/ ${parseFloat(item.price).toFixed(2)}</div>
-                <div class="cart-item-qty">
-                  <button class="qty-btn" onclick="changeQty('${item.id}', -1)">-</button>
-                  <span>${item.qty}</span>
-                  <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-                </div>
-              </div>
-              <button class="cart-item-remove" onclick="removeCartItem('${item.id}')" title="Eliminar">&times;</button>
-            </div>
-          `).join('');
-        }
-      }
-
-      const totalAmount = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
-      if (cartTotalEl) cartTotalEl.textContent = `S/ ${totalAmount.toFixed(2)}`;
-
-      localStorage.setItem("fablab_cart", JSON.stringify(cart));
-    }
-
-    window.changeQty = function(id, delta) {
-      const item = cart.find(i => i.id === id);
-      if (item) {
-        item.qty += delta;
-        if (item.qty <= 0) {
-          cart = cart.filter(i => i.id !== id);
-        }
-      }
-      updateCartUI();
-    };
-
-    window.removeCartItem = function(id) {
-      cart = cart.filter(i => i.id !== id);
-      updateCartUI();
-    };
-
-    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-      btn.addEventListener("click", function() {
-        const id = btn.getAttribute("data-id");
-        const title = btn.getAttribute("data-title");
-        const price = btn.getAttribute("data-price");
-        const img = btn.getAttribute("data-img");
-
-        const existing = cart.find(i => i.id === id);
-        if (existing) {
-          existing.qty++;
-        } else {
-          cart.push({ id, title, price, img, qty: 1 });
-        }
-
-        updateCartUI();
-        openDrawer();
-      });
-    });
-
-    function openDrawer() {
-      if (cartDrawer && cartOverlay) {
-        cartDrawer.classList.add("active");
-        cartOverlay.classList.add("active");
-      }
-    }
-
-    function closeDrawer() {
-      if (cartDrawer && cartOverlay) {
-        cartDrawer.classList.remove("active");
-        cartOverlay.classList.remove("active");
-      }
-    }
-
-    // Delegación de eventos para abrir el carrito (soporta dinámicos en el header)
-    document.addEventListener("click", function (e) {
-      const btn = e.target.closest("#openCartBtn");
-      if (btn) {
-        openDrawer();
-      }
-    });
-
-    if (closeCartBtn) closeCartBtn.addEventListener("click", closeDrawer);
-    if (cartOverlay) cartOverlay.addEventListener("click", closeDrawer);
-
-    if (clearCartBtn) {
-      clearCartBtn.addEventListener("click", function() {
-        if (cart.length > 0 && confirm("¿Deseas vaciar todos los productos del carrito?")) {
-          cart = [];
-          updateCartUI();
-        }
-      });
-    }
-
-    if (checkoutBtn) {
-      checkoutBtn.addEventListener("click", function() {
-        if (cart.length === 0) {
-          alert("Tu carrito está vacío. Agrega productos antes de realizar tu pedido.");
-          return;
-        }
-
-        let message = "Hola Fab Lab Pasco, deseo realizar el siguiente pedido:\n\n";
-        cart.forEach(item => {
-          message += `• ${item.title} (x${item.qty}) - S/ ${(parseFloat(item.price) * item.qty).toFixed(2)}\n`;
-        });
-        const total = cart.reduce((acc, item) => acc + (parseFloat(item.price) * item.qty), 0);
-        message += `\n*Total a pagar: S/ ${total.toFixed(2)}*`;
-
-        const phone = "51900000000";
-        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-        window.open(url, "_blank");
-      });
-    }
-
-    document.querySelectorAll(".filter-btn").forEach(btn => {
-      btn.addEventListener("click", function() {
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        const filter = btn.getAttribute("data-filter");
-        document.querySelectorAll(".product-card").forEach(card => {
-          if (filter === "all" || card.getAttribute("data-category") === filter) {
-            card.style.display = "flex";
-          } else {
-            card.style.display = "none";
-          }
-        });
-      });
-    });
-
-    updateCartUI();
+  menuToggle.addEventListener("click", () => {
+    siteHeader.classList.toggle("open");
   });
 
-  // ==========================================================================
-  // 4. LÓGICA DE TABLA DE ADMINISTRACIÓN (ADMIN.HTML)
-  // ==========================================================================
-  async function cargarTablaUsuarios() {
-    const tbody = document.getElementById("usuariosTableBody");
-    if (!tbody) return;
-
-    try {
-      const usuarios = await window.FabLabDB.obtenerTodosUsuarios();
-      if (!usuarios || usuarios.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay usuarios registrados.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = usuarios.map(function (u) {
-        return (
-          '<tr>' +
-            '<td>' + u.id + '</td>' +
-            '<td>' + escapeHtml(u.nombre) + '</td>' +
-            '<td>' + escapeHtml(u.correo) + '</td>' +
-            '<td><span class="badge-role ' + (u.es_admin ? 'admin' : 'user') + '">' + (u.es_admin ? 'Admin' : 'Usuario') + '</span></td>' +
-            '<td class="actions-cell">' +
-              '<button class="btn btn-ghost btn-sm edit-btn" data-id="' + u.id + '" data-nombre="' + escapeHtml(u.nombre) + '" data-correo="' + escapeHtml(u.correo) + '" data-admin="' + (u.es_admin ? 'true' : 'false') + '">Editar</button> ' +
-              '<button class="btn btn-ghost btn-sm delete-btn" data-id="' + u.id + '">Eliminar</button>' +
-            '</td>' +
-          '</tr>'
-        );
-      }).join('');
-
-      document.querySelectorAll(".edit-btn").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          const card = document.getElementById("editUserCard");
-          document.getElementById("editUserId").value = btn.getAttribute("data-id");
-          document.getElementById("editNombre").value = btn.getAttribute("data-nombre");
-          document.getElementById("editCorreo").value = btn.getAttribute("data-correo");
-          document.getElementById("editEsAdmin").checked = btn.getAttribute("data-admin") === "true";
-          document.getElementById("editClave").value = "";
-          card.style.display = "block";
-          card.scrollIntoView({ behavior: 'smooth' });
-        });
-      });
-
-      document.querySelectorAll(".delete-btn").forEach(function (btn) {
-        btn.addEventListener("click", async function () {
-          const id = btn.getAttribute("data-id");
-          if (confirm("¿Estás seguro de que deseas eliminar al usuario ID " + id + "?")) {
-            try {
-              await window.FabLabDB.eliminarUsuario(id);
-              cargarTablaUsuarios();
-            } catch (err) {
-              alert("Error al eliminar el usuario: " + err.message);
-            }
-          }
-        });
-      });
-
-    } catch (err) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ff8b8b;">Error al cargar los usuarios desde Supabase.</td></tr>';
-    }
-  }
-
-  const cancelBtn = document.getElementById("cancelEditBtn");
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", function () {
-      document.getElementById("editUserCard").style.display = "none";
+  siteHeader.querySelectorAll(".nav a").forEach((link) => {
+    link.addEventListener("click", () => {
+      siteHeader.classList.remove("open");
     });
-  }
+  });
+}
 
-  const editForm = document.getElementById("editUserForm");
-  if (editForm) {
-    editForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const id = document.getElementById("editUserId").value;
-      const nombre = value("editNombre");
-      const correo = value("editCorreo").toLowerCase();
-      const clave = value("editClave");
-      const es_admin = document.getElementById("editEsAdmin").checked;
-      const msg = document.getElementById("editFormMsg");
-
-      const payload = { nombre, correo, es_admin };
-      if (clave) payload.clave = clave;
-
-      try {
-        await window.FabLabDB.actualizarUsuario(id, payload);
-        show(msg, "Usuario actualizado correctamente.", true);
-        setTimeout(function () {
-          document.getElementById("editUserCard").style.display = "none";
-          cargarTablaUsuarios();
-        }, 600);
-      } catch (err) {
-        show(msg, "Error al actualizar el usuario.", false);
-      }
-    });
-  }
-
-  // ==========================================================================
-  // 5. INTERFAZ Y NAVEGACIÓN (INCLUYENDO SESIÓN Y BOTÓN CARRITO)
-  // ==========================================================================
-  const header = document.querySelector(".site-header");
-  const toggle = document.querySelector(".menu-toggle");
-  if (toggle && header) {
-    toggle.addEventListener("click", function () {
-      header.classList.toggle("open");
-    });
-  }
-
+/* ==========================================================================
+   2. CAMBIO DE TEMA (MODO OSCURO / MODO CLARO)
+   ========================================================================== */
+function initThemeToggle() {
   const themeToggle = document.getElementById("themeToggle");
   const savedTheme = localStorage.getItem("fablab_theme");
 
@@ -455,159 +56,526 @@
     if (themeToggle) themeToggle.textContent = "☀️";
   }
 
-  function setupThemeToggle(btn) {
-    if (!btn) return;
-    btn.addEventListener("click", function () {
-      const isLight = document.body.classList.toggle("light-mode");
-      btn.textContent = isLight ? "☀️" : "🌙";
-      localStorage.setItem("fablab_theme", isLight ? "light" : "dark");
+  if (!themeToggle) return;
+
+  themeToggle.addEventListener("click", () => {
+    const isLight = document.body.classList.toggle("light-mode");
+    localStorage.setItem("fablab_theme", isLight ? "light" : "dark");
+    themeToggle.textContent = isLight ? "☀️" : "🌙";
+  });
+}
+
+/* ==========================================================================
+   3. GESTIÓN DE SESIÓN DE USUARIO EN EL HEADER
+   ========================================================================== */
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem("fablab_user"));
+  } catch {
+    return null;
+  }
+}
+
+function initSessionUI() {
+  const user = getCurrentUser();
+  const adminNavLink = document.getElementById("adminNavLink");
+  const authContainer = document.querySelector(".auth");
+
+  if (user && user.es_admin && adminNavLink) {
+    adminNavLink.style.display = "inline-block";
+  }
+
+  if (user && authContainer) {
+    const loginLink = authContainer.querySelector('a[href="login.html"]');
+    const registerLink = authContainer.querySelector('a[href="registro.html"]');
+
+    if (loginLink) loginLink.remove();
+    if (registerLink) registerLink.remove();
+
+    const userChip = document.createElement("span");
+    userChip.className = "user-chip";
+    userChip.textContent = `Hola, ${user.nombre.split(" ")[0]}`;
+
+    const logoutBtn = document.createElement("button");
+    logoutBtn.type = "button";
+    logoutBtn.className = "btn btn-ghost";
+    logoutBtn.textContent = "Salir";
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("fablab_user");
+      window.location.href = "index.html";
+    });
+
+    authContainer.appendChild(userChip);
+    authContainer.appendChild(logoutBtn);
+  }
+}
+
+/* ==========================================================================
+   4. CARRITO DE COMPRAS LATERAL (DRAWER) Y PEDIDO POR WHATSAPP
+   ========================================================================== */
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem("fablab_cart")) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  localStorage.setItem("fablab_cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function initCart() {
+  const openCartBtn = document.getElementById("openCartBtn");
+  const closeCartBtn = document.getElementById("closeCartBtn");
+  const cartOverlay = document.getElementById("cartOverlay");
+  const cartDrawer = document.getElementById("cartDrawer");
+  const clearCartBtn = document.getElementById("clearCartBtn");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+
+  const openDrawer = () => {
+    if (cartDrawer) cartDrawer.classList.add("active");
+    if (cartOverlay) cartOverlay.classList.add("active");
+  };
+
+  const closeDrawer = () => {
+    if (cartDrawer) cartDrawer.classList.remove("active");
+    if (cartOverlay) cartOverlay.classList.remove("active");
+  };
+
+  if (openCartBtn) openCartBtn.addEventListener("click", openDrawer);
+  if (closeCartBtn) closeCartBtn.addEventListener("click", closeDrawer);
+  if (cartOverlay) cartOverlay.addEventListener("click", closeDrawer);
+
+  // Botones "+ Agregar" en compras.html
+  document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const title = btn.dataset.title || btn.dataset.name;
+      const price = parseFloat(btn.dataset.price);
+      const img = btn.dataset.img || "assets/logo.svg";
+
+      const cart = getCart();
+      const existing = cart.find((item) => item.id === id);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id, title, price, img, qty: 1 });
+      }
+
+      saveCart(cart);
+      openDrawer();
+    });
+  });
+
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener("click", () => {
+      saveCart([]);
     });
   }
 
-  setupThemeToggle(themeToggle);
-
-  // Estado de Sesión Activa (Mantiene visible el botón de carrito)
-  const session = JSON.parse(localStorage.getItem("fablab_session") || "null");
-  const auth = document.querySelector(".auth");
-
-  if (session) {
-    const adminLink = document.getElementById("adminNavLink");
-    if (adminLink && session.es_admin) {
-      adminLink.style.display = "inline-block";
-    }
-
-    if (auth) {
-      const isLightActive = document.body.classList.contains("light-mode");
-      const cart = JSON.parse(localStorage.getItem("fablab_cart") || "[]");
-      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
-
-      auth.innerHTML =
-        '<button class="btn btn-ghost cart-btn" id="openCartBtn" type="button" title="Ver carrito">' +
-        '🛒 <span class="cart-count" id="cartCount">' + totalCount + '</span>' +
-        '</button>' +
-        '<button class="btn btn-ghost theme-toggle" id="themeToggle" type="button" title="Cambiar tema">' +
-        (isLightActive ? "☀️" : "🌙") +
-        '</button>' +
-        '<span class="user-chip">Hola, ' +
-        escapeHtml(session.nombre) +
-        (session.es_admin ? ' (Admin)' : '') +
-        '</span><button class="btn btn-ghost" id="logoutBtn" type="button">Salir</button>';
-
-      setupThemeToggle(document.getElementById("themeToggle"));
-
-      const logout = document.getElementById("logoutBtn");
-      if (logout) {
-        logout.addEventListener("click", function () {
-          localStorage.removeItem("fablab_session");
-          window.location.href = "index.html";
-        });
-      }
-    }
-  }
-
-  // ==========================================================================
-  // 6. ENVÍO DE DATOS DESDE FORMULARIOS
-  // ==========================================================================
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const correo = value("loginCorreo").toLowerCase();
-      const clave = value("loginClave");
-      const msg = document.getElementById("formMsg");
-
-      try {
-        const usuario = await window.FabLabDB.loginUsuario(correo, clave);
-        localStorage.setItem(
-          "fablab_session",
-          JSON.stringify({ 
-            id: usuario.id, 
-            nombre: usuario.nombre, 
-            correo: usuario.correo, 
-            es_admin: usuario.es_admin || false 
-          })
-        );
-        show(msg, "Sesión iniciada correctamente. Redirigiendo...", true);
-        setTimeout(function () {
-          window.location.href = usuario.es_admin ? "admin.html" : "index.html";
-        }, 700);
-      } catch (err) {
-        show(msg, "Correo o contraseña incorrectos.", false);
-      }
-    });
-  }
-
-  const registerForm = document.getElementById("registerForm");
-  if (registerForm) {
-    registerForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const nombre = value("regNombre");
-      const correo = value("regCorreo").toLowerCase();
-      const clave = value("regClave");
-      const msg = document.getElementById("formMsg");
-
-      if (clave.length < 6) {
-        show(msg, "La contraseña debe tener al menos 6 caracteres.", false);
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert("Tu carrito está vacío.");
         return;
       }
 
-      try {
-        const nuevoUsuario = await window.FabLabDB.registrarUsuario(nombre, correo, clave);
-        localStorage.setItem(
-          "fablab_session",
-          JSON.stringify({ 
-            id: nuevoUsuario.id, 
-            nombre: nuevoUsuario.nombre, 
-            correo: nuevoUsuario.correo, 
-            es_admin: false 
-          })
-        );
-        show(msg, "Cuenta creada y registrada en Supabase. Redirigiendo...", true);
-        setTimeout(function () {
-          window.location.href = "index.html";
-        }, 700);
-      } catch (err) {
-        show(msg, "El correo ya está registrado o hubo un error al guardar.", false);
-      }
+      let total = 0;
+      let message = "Hola *Fab Lab Pasco*, quisiera realizar el siguiente pedido:%0A%0A";
+
+      cart.forEach((item) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        message += `• ${item.qty}x ${item.title} — S/ ${subtotal.toFixed(2)}%0A`;
+      });
+
+      message += `%0A*Total estimado:* S/ ${total.toFixed(2)}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
     });
   }
 
-  const contactForm = document.getElementById("contactForm");
-  if (contactForm) {
-    contactForm.addEventListener("submit", async function (e) {
+  renderCart();
+}
+
+function renderCart() {
+  const container = document.getElementById("cartItemsContainer");
+  const countEl = document.getElementById("cartCount");
+  const totalEl = document.getElementById("cartTotal");
+  const cart = getCart();
+
+  const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+  const totalAmount = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+
+  if (countEl) countEl.textContent = totalItems;
+  if (totalEl) totalEl.textContent = `S/ ${totalAmount.toFixed(2)}`;
+  if (!container) return;
+
+  if (cart.length === 0) {
+    container.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
+    return;
+  }
+
+  container.innerHTML = cart
+    .map(
+      (item, index) => `
+      <div class="cart-item">
+        <img src="${item.img}" alt="${item.title}">
+        <div class="cart-item-details">
+          <h4>${item.title}</h4>
+          <span class="price">S/ ${(item.price * item.qty).toFixed(2)}</span>
+          <div class="cart-item-qty">
+            <button class="qty-btn" type="button" data-action="dec" data-index="${index}">-</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" type="button" data-action="inc" data-index="${index}">+</button>
+          </div>
+        </div>
+        <button class="cart-item-remove" type="button" data-action="rem" data-index="${index}" title="Eliminar">&times;</button>
+      </div>
+    `
+    )
+    .join("");
+
+  container.querySelectorAll("button[data-action]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.dataset.index, 10);
+      const action = btn.dataset.action;
+      const updatedCart = getCart();
+
+      if (action === "inc") updatedCart[idx].qty += 1;
+      if (action === "dec") {
+        updatedCart[idx].qty -= 1;
+        if (updatedCart[idx].qty <= 0) updatedCart.splice(idx, 1);
+      }
+      if (action === "rem") updatedCart.splice(idx, 1);
+
+      saveCart(updatedCart);
+    });
+  });
+}
+
+/* ==========================================================================
+   5. FILTROS DE CATÁLOGO EN TIENDA (COMPRAS.HTML)
+   ========================================================================== */
+function initStoreFilters() {
+  const filterBtns = document.querySelectorAll(".filter-tabs .filter-btn");
+  const productCards = document.querySelectorAll("#productsGrid .product-card");
+
+  if (filterBtns.length === 0 || productCards.length === 0) return;
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const category = btn.dataset.filter;
+      productCards.forEach((card) => {
+        if (category === "all" || card.dataset.category === category) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+}
+
+/* ==========================================================================
+   6. MOSTRAR / OCULTAR CONTRASEÑA (LOGIN Y REGISTRO)
+   ========================================================================== */
+function initPasswordToggles() {
+  document.querySelectorAll(".toggle-password").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const wrap = btn.closest(".password-wrap");
+      const input = wrap ? wrap.querySelector("input") : null;
+      if (!input) return;
+
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      btn.style.opacity = isPassword ? "1" : "0.7";
+    });
+  });
+}
+
+/* ==========================================================================
+   7. REGISTRO DE USUARIOS (SUPABASE: TABLA "usuarios")
+   ========================================================================== */
+function initRegisterForm() {
+  const form = document.getElementById("registerForm");
+  if (!form) return;
+
+  const msgEl = document.getElementById("formMsg");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("regNombre").value.trim();
+    const correo = document.getElementById("regCorreo").value.trim().toLowerCase();
+    const clave = document.getElementById("regClave").value.trim();
+
+    if (!supabaseClient) {
+      showMsg(msgEl, "Configura SUPABASE_URL y SUPABASE_ANON_KEY en js/main.js", "err");
+      return;
+    }
+
+    showMsg(msgEl, "Registrando cuenta...", "");
+
+    const { data: existing } = await supabaseClient
+      .from("usuarios")
+      .select("id")
+      .eq("correo", correo)
+      .maybeSingle();
+
+    if (existing) {
+      showMsg(msgEl, "Este correo ya se encuentra registrado.", "err");
+      return;
+    }
+
+    const { error } = await supabaseClient.from("usuarios").insert([
+      { nombre, correo, clave, es_admin: false }
+    ]);
+
+    if (error) {
+      showMsg(msgEl, "Error al registrar: " + error.message, "err");
+      return;
+    }
+
+    showMsg(msgEl, "Cuenta creada correctamente. Redirigiendo...", "ok");
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1200);
+  });
+}
+
+/* ==========================================================================
+   8. INICIO DE SESIÓN (SUPABASE: TABLA "usuarios")
+   ========================================================================== */
+function initLoginForm() {
+  const form = document.getElementById("loginForm");
+  if (!form) return;
+
+  const msgEl = document.getElementById("formMsg");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const correo = document.getElementById("loginCorreo").value.trim().toLowerCase();
+    const clave = document.getElementById("loginClave").value.trim();
+
+    if (!supabaseClient) {
+      showMsg(msgEl, "Configura SUPABASE_URL y SUPABASE_ANON_KEY en js/main.js", "err");
+      return;
+    }
+
+    showMsg(msgEl, "Verificando credenciales...", "");
+
+    const { data, error } = await supabaseClient
+      .from("usuarios")
+      .select("id, nombre, correo, es_admin")
+      .eq("correo", correo)
+      .eq("clave", clave)
+      .maybeSingle();
+
+    if (error) {
+      showMsg(msgEl, "Error de conexión: " + error.message, "err");
+      return;
+    }
+
+    if (!data) {
+      showMsg(msgEl, "Correo o contraseña incorrectos.", "err");
+      return;
+    }
+
+    localStorage.setItem("fablab_user", JSON.stringify(data));
+    showMsg(msgEl, `Bienvenido, ${data.nombre}. Redirigiendo...`, "ok");
+
+    setTimeout(() => {
+      window.location.href = data.es_admin ? "admin.html" : "index.html";
+    }, 900);
+  });
+}
+
+/* ==========================================================================
+   9. FORMULARIO DE CONTACTO (SUPABASE: TABLA "contacto_mensajes")
+   ========================================================================== */
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+
+  const msgEl = document.getElementById("formMsg");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const mensaje = document.getElementById("mensaje").value.trim();
+
+    if (!supabaseClient) {
+      showMsg(msgEl, "Configura SUPABASE_URL y SUPABASE_ANON_KEY en js/main.js", "err");
+      return;
+    }
+
+    showMsg(msgEl, "Enviando mensaje...", "");
+
+    const { error } = await supabaseClient
+      .from("contacto_mensajes")
+      .insert([{ nombre, correo, mensaje }]);
+
+    if (error) {
+      showMsg(msgEl, "No se pudo enviar el mensaje: " + error.message, "err");
+      return;
+    }
+
+    showMsg(msgEl, "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.", "ok");
+    form.reset();
+  });
+}
+
+/* ==========================================================================
+   10. PANEL DE ADMINISTRACIÓN (ADMIN.HTML - TABLA "usuarios")
+   ========================================================================== */
+function initAdminPanel() {
+  const tableBody = document.getElementById("usuariosTableBody");
+  if (!tableBody) return;
+
+  const currentUser = getCurrentUser();
+  if (!currentUser || !currentUser.es_admin) {
+    tableBody.innerHTML =
+      '<tr><td colspan="5" style="text-align:center; color:#ff8b8b;">Acceso denegado. Inicia sesión como administrador.</td></tr>';
+    return;
+  }
+
+  const editCard = document.getElementById("editUserCard");
+  const editForm = document.getElementById("editUserForm");
+  const cancelEditBtn = document.getElementById("cancelEditBtn");
+  const editFormMsg = document.getElementById("editFormMsg");
+
+  async function loadUsuarios() {
+    if (!supabaseClient) {
+      tableBody.innerHTML =
+        '<tr><td colspan="5" style="text-align:center;">Configura tus credenciales de Supabase en js/main.js</td></tr>';
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("usuarios")
+      .select("id, nombre, correo, es_admin")
+      .order("id", { ascending: true });
+
+    if (error) {
+      tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#ff8b8b;">Error: ${error.message}</td></tr>`;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay usuarios registrados.</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = data
+      .map(
+        (u) => `
+        <tr>
+          <td>${u.id}</td>
+          <td>${u.nombre}</td>
+          <td>${u.correo}</td>
+          <td>
+            <span class="badge-role ${u.es_admin ? "admin" : "user"}">
+              ${u.es_admin ? "Admin" : "Usuario"}
+            </span>
+          </td>
+          <td style="display:flex; gap:8px;">
+            <button class="btn btn-ghost btn-sm edit-user-btn" type="button"
+              data-id="${u.id}"
+              data-nombre="${u.nombre}"
+              data-correo="${u.correo}"
+              data-admin="${u.es_admin}">
+              Editar
+            </button>
+            <button class="btn btn-ghost btn-sm delete-user-btn" type="button"
+              style="border-color:#ff6b6b; color:#ff6b6b;"
+              data-id="${u.id}">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      `
+      )
+      .join("");
+
+    // Eventos de edición
+    tableBody.querySelectorAll(".edit-user-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.getElementById("editUserId").value = btn.dataset.id;
+        document.getElementById("editNombre").value = btn.dataset.nombre;
+        document.getElementById("editCorreo").value = btn.dataset.correo;
+        document.getElementById("editClave").value = "";
+        document.getElementById("editEsAdmin").checked = btn.dataset.admin === "true";
+        editFormMsg.textContent = "";
+        editCard.style.display = "block";
+        editCard.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    // Eventos de eliminación
+    tableBody.querySelectorAll(".delete-user-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.dataset.id;
+        if (String(id) === String(currentUser.id)) {
+          alert("No puedes eliminar tu propio usuario administrador activo.");
+          return;
+        }
+        if (!confirm("¿Seguro que deseas eliminar este usuario?")) return;
+
+        const { error: delError } = await supabaseClient.from("usuarios").delete().eq("id", id);
+        if (delError) {
+          alert("Error al eliminar: " + delError.message);
+        } else {
+          loadUsuarios();
+        }
+      });
+    });
+  }
+
+  if (cancelEditBtn) {
+    cancelEditBtn.addEventListener("click", () => {
+      editCard.style.display = "none";
+    });
+  }
+
+  if (editForm) {
+    editForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const nombre = value("nombre");
-      const correo = value("correo");
-      const mensaje = value("mensaje");
-      const msg = document.getElementById("formMsg");
+      const id = document.getElementById("editUserId").value;
+      const nombre = document.getElementById("editNombre").value.trim();
+      const correo = document.getElementById("editCorreo").value.trim().toLowerCase();
+      const nuevaClave = document.getElementById("editClave").value.trim();
+      const es_admin = document.getElementById("editEsAdmin").checked;
 
-      try {
-        await window.FabLabDB.enviarContacto(nombre, correo, mensaje);
-        show(msg, "Mensaje guardado con éxito en la base de datos de Supabase.", true);
-        contactForm.reset();
-      } catch (err) {
-        show(msg, "Error al guardar el mensaje en la base de datos.", false);
+      const updates = { nombre, correo, es_admin };
+      if (nuevaClave) updates.clave = nuevaClave;
+
+      const { error } = await supabaseClient.from("usuarios").update(updates).eq("id", id);
+
+      if (error) {
+        showMsg(editFormMsg, "Error al actualizar: " + error.message, "err");
+        return;
       }
+
+      showMsg(editFormMsg, "Usuario actualizado correctamente.", "ok");
+      setTimeout(() => {
+        editCard.style.display = "none";
+        loadUsuarios();
+      }, 800);
     });
   }
 
-  // ==========================================================================
-  // 7. FUNCIONES AUXILIARES
-  // ==========================================================================
-  function value(id) {
-    return (document.getElementById(id).value || "").trim();
-  }
+  loadUsuarios();
+}
 
-  function show(el, text, ok) {
-    if (!el) return;
-    el.textContent = text;
-    el.className = "msg " + (ok ? "ok" : "err");
-  }
-
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-})();
+function showMsg(el, text, type) {
+  if (!el) return;
+  el.textContent = text;
+  el.className = "msg" + (type ? " " + type : "");
+}

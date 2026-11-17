@@ -776,6 +776,13 @@ label {
   margin: 12px 0 6px;
 }
 
+.checkbox-label {
+  text-transform: none;
+  font-size: 13px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
 input,
 textarea,
 select {
@@ -855,7 +862,7 @@ textarea {
 }
 
 /* ==========================================================================
-   11. FORMULARIO DE LOGIN COMPACTO Y CENTRADO
+   11. FORMULARIO DE LOGIN Y REGISTRO COMPACTO Y CENTRADO
    ========================================================================== */
 .auth-single-wrap {
   max-width: 380px;
@@ -1357,6 +1364,11 @@ body.light-mode .nav a {
   color: #222222;
 }
 
+body.light-mode .menu-toggle {
+  border-color: #cbd5e0;
+  color: #111111;
+}
+
 body.light-mode .btn-ghost {
   border-color: #333333;
   color: #111111;
@@ -1395,11 +1407,23 @@ body.light-mode .specs-list li strong {
   color: #1a202c;
 }
 
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select {
+  background: #f8fafc;
+  border-color: #cbd5e0;
+  color: #1a202c;
+}
+
 body.light-mode .toggle-password {
   color: #4a5568;
 }
 
 body.light-mode .toggle-password:hover {
+  color: #1a202c;
+}
+
+body.light-mode .user-chip {
   color: #1a202c;
 }
 
@@ -1594,7 +1618,7 @@ body.light-mode .footer-bottom {
 }
 
 /* ==========================================================================
-   17. DISEÑO RESPONSIVO (MEDIA QUERIES)
+   17. DISEÑO RESPONSIVO (TABLET Y MÓVIL)
    ========================================================================== */
 @media (max-width: 980px) {
   .site-header {
@@ -1709,5 +1733,45 @@ body.light-mode .footer-bottom {
 @media (max-width: 600px) {
   .grid-4 {
     grid-template-columns: 1fr;
+  }
+
+  .page h1,
+  .servicios h2,
+  .section-padded h2 {
+    font-size: 28px;
+    line-height: 1.25;
+  }
+
+  .servicios h1,
+  .section-padded h1 {
+    font-size: 22px;
+    margin-bottom: 32px;
+  }
+
+  .hero-buttons,
+  .cta-buttons,
+  .innovative-stats-row {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .hero-buttons .btn,
+  .cta-buttons .btn {
+    width: 100%;
+  }
+
+  .glass-float-card {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .top-float {
+    top: 12px;
+    right: 6px;
+  }
+
+  .bottom-float {
+    bottom: 12px;
+    left: 6px;
   }
 }
